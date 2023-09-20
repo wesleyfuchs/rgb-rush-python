@@ -52,6 +52,17 @@ def iniciar_jogo():
         e_cor.delete(0,END)
         e_cor.insert(0,hexadecimal)
 
+    def gerar_cor_aleatoria():
+        '''Gera uma cor aleatoria usando valores RGB e aplica valores hexadecimais'''
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+
+        hexadecimal = "#%02x%02x%02x" % (r, g, b)
+
+        tela_objetivo['bg'] = hexadecimal
+    
+    gerar_cor_aleatoria()
 
     # Sliders RGB
     largura = 300
@@ -76,16 +87,6 @@ def iniciar_jogo():
     e_cor = Entry(codigo_hex, width=12, font=("Ivy", 10, "bold"), justify=CENTER)
     e_cor.grid(row=1, column=0, padx=5, pady=10)
 
-
-    def gerar_cor_aleatoria():
-        '''Gera uma cor aleatoria usando valores RGB e aplica valores hexadecimais'''
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
-
-        hexadecimal = "#%02x%02x%02x" % (r, g, b)
-
-        tela_objetivo['bg'] = hexadecimal
 
     # Função para calcular a porcentagem de similaridade entre duas cores RGB
     def calcula_porcentagem_similaridade(cor1, cor2):
@@ -120,21 +121,23 @@ def iniciar_jogo():
         if similaridade > 90:
             pontuacao += 1
             atualizar_pontuacao()
+            
+        gerar_cor_aleatoria()  # Chamando a função para gerar uma nova cor aleatória
         
 
     # Botões
-    gerar_cor_button = Button(codigo_hex, text="Gerar Cor Aleatória", command=gerar_cor_aleatoria)
-    gerar_cor_button.grid(row=0, column=0, padx=5, pady=10)
+    # gerar_cor_button = Button(codigo_hex, text="Gerar Cor Aleatória", command=gerar_cor_aleatoria)
+    # gerar_cor_button.grid(row=0, column=0, padx=5, pady=10)
 
     verificar_button = Button(codigo_hex, text="Verificar Cor", command=verificar_cor)
-    verificar_button.grid(row=0, column=1, padx=5, pady=10)
+    verificar_button.grid(row=0, column=0, padx=5, pady=10)
 
     resultado_label = Label(codigo_hex, text="", font=("Ivy", 10, "bold"), fg="black")
     resultado_label.grid(row=1, column=1, columnspan=2, padx=5, pady=10)
     
     # Label para exibir a pontuação
-    pontuacao_label = Label(codigo_hex, text=f"Pontuação: {pontuacao}", font=("Ivy", 10, "bold"), fg="black")
-    pontuacao_label.grid(row=2, column=0, columnspan=2, padx=5, pady=10)
+    pontuacao_label = Label(janela, text=f"Score: {pontuacao}", font=("Ivy", 12, "bold"), fg="black")
+    pontuacao_label.grid(row=1, column=1, columnspan=2, padx=5, pady=10)
 
 
     janela.mainloop()
